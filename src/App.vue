@@ -1,17 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Timer :hour="hour" :sec="sec" @start-timer="countDown" @stop-timer="stopTimer" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Timer from '@/components/Timer';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      hour: 1,
+      sec: 50,
+      timer: false,
+    }
+  },  
   components: {
-    HelloWorld
+    Timer
+  },
+  methods: {
+    countDown() {
+      this.timer = !this.timer
+      if ( this.timer ) {
+        var interval = setInterval( () => {
+            this.sec -= 1
+        }, 1000)
+      }
+      else {
+        this.timer = !this.timer
+        clearInterval(interval)
+      }
+    },
+    stopTimer() {
+      this.sec = 50;
+      this.timer = false
+    }
+  },
+  created() {
+    // this.countDown();
   }
 }
 </script>
