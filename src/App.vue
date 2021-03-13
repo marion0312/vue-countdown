@@ -1,40 +1,52 @@
 <template>
   <div id="app">
-    <Timer :hour="hour" :sec="sec" @start-timer="countDown" @stop-timer="stopTimer" />
+    <SetTimer @set-timer="setTimer" />
+    <Timer :hour="hour" :min="min" :sec="sec" @start-timer="countDown" @stop-timer="stopTimer" />
   </div>
 </template>
 
 <script>
 import Timer from '@/components/Timer';
+import SetTimer from '@/components/SetTimer';
 
 export default {
   name: 'App',
   data() {
     return {
-      hour: 1,
-      sec: 50,
+      hour: 0,
+      min: 0,
+      sec: 0,
       timer: false,
+      interval: '',
     }
   },  
   components: {
-    Timer
+    Timer,
+    SetTimer
   },
   methods: {
     countDown() {
-      this.timer = !this.timer
-      if ( this.timer ) {
-        var interval = setInterval( () => {
+      this.interval = setInterval( () => {
+          if ( this.sec >= 1 )
+          {
             this.sec -= 1
+          }
+          else {
+            this.sec = 0
+            this.stopTimer()
+          }
         }, 1000)
-      }
-      else {
-        this.timer = !this.timer
-        clearInterval(interval)
-      }
     },
     stopTimer() {
-      this.sec = 50;
-      this.timer = false
+      // this.sec = 50;
+      clearInterval(this.interval)
+    },
+    setTimer(timerSettings) {
+      const { hour, min, sec } = timerSettings
+      
+      this.hour = parseInt(hour)
+      this.min = parseInt(min)
+      this.sec = parseInt(sec)
     }
   },
   created() {
