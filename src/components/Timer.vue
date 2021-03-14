@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>Countdown Timer</h1>
+      <h1>{{ timerName }}</h1>
       <section>
 
           <div class="hour">
@@ -23,8 +23,8 @@
       </section>
     
     <div class="button">
-        <button @click="startTimer">Start Timer</button>
-        <button @click="stopTimer">Stop Timer</button>
+        <button :disabled="startDisabled" @click="startTimer" :class="{'is-disabled':startDisabled}">Start Timer</button>
+        <button :disabled="stopDisabled" @click="stopTimer" :class="{'is-disabled':stopDisabled}">Stop Timer</button>
     </div>
 
   </div>
@@ -45,7 +45,17 @@ export default {
         sec: {
             type: Number,
             default: 0
-        },  
+        },
+        timerName: {
+            type: Text,
+            default: 'Countdown Timer'
+        },
+        startDisabled: {
+            type: Boolean
+        },
+        stopDisabled: {
+            type: Boolean
+        },
     },
     methods: {
         startTimer() {
@@ -85,5 +95,9 @@ export default {
         color: white;
         font-weight: bold;
         margin: 0px 10px;
+    }
+
+    .is-disabled {
+        background-color: gray;
     }
 </style>

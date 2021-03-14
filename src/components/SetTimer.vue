@@ -2,6 +2,7 @@
     <div class="border">
         <h3>Timer Settings</h3>
         <form @submit.prevent="onSubmit($event)">
+            <input type="text" v-model="timerName" placeholder="Timer Name">
             <input type="number" v-model="hour" placeholder="Hours">
             <input type="number" v-model="min" placeholder="Minutes">
             <input type="number" v-model="sec" placeholder="Seconds">
@@ -28,12 +29,18 @@ export default {
             const timerSettings = {
                 hour: this.hour,
                 min: this.min,
-                sec: this.sec
+                sec: this.sec,
+                timerName: this.timerName
             }
 
             console.warn(timerSettings)
 
+
             this.$emit('set-timer', timerSettings);
+            this.hour = ''
+            this.min = ''
+            this.sec = ''
+            this.timerName = ''
         }
     },
     // validations: {
@@ -55,6 +62,13 @@ export default {
     }
 
     input[type='number']
+    {
+        flex: 4;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    input[type='text']
     {
         flex: 4;
         margin: 10px;
